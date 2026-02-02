@@ -1,73 +1,42 @@
-# React + TypeScript + Vite
+# Приложение Project-Test
+Деплой - https://alesh-project-test.netlify.app
+Код  - https://github.com/ALexey110011/project-test
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+# Стек:
+ React v.19.2
+ Typescript
+ MaterialUI + Material-icons
+ CSS
+ Адаптивный дизайн - useMediaQuery MUI (шsDesktop, isTablet, isMobile)
+ State management - Zustand
+ Test framework - Jest
+ Тема - seTheme MUI
 
-Currently, two official plugins are available:
+ # Функционал:
+ 1. Страница каталога товаров:
+      Feed - запрос и отображение полученных с бэкенда (https://fakeStoreAPI...) позиций.  
+      Pagination - отображение позиций с учетом пагинации
+      
+    # Блокер:
+      отсутствие возможности в API использования параметров 'page', 'skip' или 'offset'.
+    # Решение:
+      использование только параметра 'limit' и последующей выборки на фронтенде (первая страница - limit=12, вторая - limit=20).
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) (or [oxc](https://oxc.rs) when used in [rolldown-vite](https://vite.dev/guide/rolldown)) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+      Пагинация в 2 вариантах:
+       - десктоп / планшет - постраничная пагинация на основе ReactPaginate
+       - смартфон - подгрузка новых позиций по скроллу вниз
 
-## React Compiler
+       Для запросов - useQuery, useInfiniteQuery.
+       
+  2. Страница Detail - переход на страницу товара по клику на карточку товара с Feed
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+  3. Страница Search - фильтрация и поиск по категории
+     Для десктопа/планшета - карусель с категориями со стрелками '<' '>' (для малого количества позиций (4) не видны)
+     Для планшета - карусель с категориями со swipe
+  
+  Добавление товара в корзину доступно с любой из рассмотренных страниц (Feed, Detail, Search).
 
-## Expanding the ESLint configuration
+  4. Страница Basket - отображение добавленных товаров с возможностью изменения количества и записью в localStorage. Для сохранения промежуточного состояния корзины использован store на основе Zustand. 
+  При отправке запроса на бэкенд для имитации success/error использован хук useMutation
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
-
-```js
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-
-      // Remove tseslint.configs.recommended and replace with this
-      tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked,
-
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
-```
-
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
-
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
-
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
-```
+  5. Страница Footer - навигация между страницами
